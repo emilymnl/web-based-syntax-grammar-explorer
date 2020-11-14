@@ -1,1 +1,1 @@
-# web-based-syntax-grammar-explorer
+# web-based syntax/grammar explorer

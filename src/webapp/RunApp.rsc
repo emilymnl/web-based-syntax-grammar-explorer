@@ -29,21 +29,6 @@ import Type;
 import Set;
 import Module;
 
-/*
-lexical Whitespace = [\ \n];
-layout MyLayout = Whitespace*;
-lexical NUM = [0-9]+;
-lexical Id = [a-z]+;
-
-syntax Expr
-    = NUM 
-    | Id Expr
-    > left Expr "+" Expr
-    > left Expr "*" Expr
-    > left Expr "/" Expr
-    | "("  Expr  ")"
-;
-*/
 void main() {
 	startServer();
 }
@@ -54,9 +39,12 @@ void startServer() {
 	
 	map[int, map[str, str]] mapOfNodes = getGrammar(s); 
 	
-	set[str] exprr = mapOfNodes[(size(mapOfNodes)-1)]<1>;	// get the input final expression of the tree
-	str expression = min(exprr);							// min() removes { and } and only returns the string
-	//writeFile(expression, mapOfNodes);					// adds the html, with css and js (the tree).
+	// get the input final expression of the tree
+	set[str] exprr = mapOfNodes[(size(mapOfNodes)-1)]<1>;
+	// min() removes { and } and only returns the string	
+	str expression = min(exprr);
+	// adds the html, with css and js (the tree).							
+	//writeFile(expression, mapOfNodes);					
 	
 	
 	// this serves the initial form

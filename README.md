@@ -16,4 +16,4 @@ For macOS/Linux
 
 For Windows
 - To track down the server: `netstat -ano | findstr :10001` (the port number)
-- Now you see the process ID, kill it: `taskkill /F /PID 12017 (or whatever the PID is)
+- Now you see the process ID, kill it: `taskkill /F /PID 12017` (or whatever the PID is)

@@ -1,5 +1,7 @@
 module webapp::jsContent
 
+// NOTE: This is where it is decided how the tree should look like
+
 import examples::Test;
 
 import Map;

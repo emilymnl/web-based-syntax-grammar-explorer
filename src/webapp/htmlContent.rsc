@@ -4,7 +4,7 @@ import IO;
 import util::Math;
 import Type;
 
-import webapp::jsContent2;
+import webapp::jsContent;
 import webapp::cssContent;
 
 public str tags(str operator, str attributes, str content) = "\<<operator><attributes>\>\n<content>\</<operator>\>\n";

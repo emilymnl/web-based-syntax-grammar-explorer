@@ -9,8 +9,6 @@ import List;
 import grammars::getGrammar;
 import webapp::htmlContent;
 
-//import webapp::jsContent2;
-//import webapp::cssContent;
 import grammars::GrammarContent;
 import Map;
 

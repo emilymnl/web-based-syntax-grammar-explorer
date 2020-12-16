@@ -1,22 +1,24 @@
 module webapp::jsContent1
 
+// NOTE: this module is to test the implementation of paranthesis on the parse tree
+
 import examples::Test;
 
 import Map;
 import IO;
 
-import Type; 	//typeOf
+import Type; 	// typeOf
 import Set;
 import List; 	// size
-import String; 	//toInt contains
-
+import String; 	// toInt and contains
 
 
 public str js(str content) = "<content>";
 
+// the main one
 public str jsFilled(map[int, map[str, str]] gram) = js(first(gr(gram)) + rest());
 
-// 3d.js
+// for 3d.js
 public str name(str name) = "name: \'<name>\'\n";
 
 public str child(str name) = "{\n name: \'<name>\' \n}"; 
@@ -26,7 +28,7 @@ public str nameChildren(str name, str children) = "name: \'<name>\',\nchildren: 
 public str children(str name, str children) = "{\n name: \'<name>\',\nchildren: [ <children> ]\n}\n"; 
 
 
-
+// functions
 str gr(map[int, map[str, str]] gram) {
 	str result = "";
 	str mainRight = "";
@@ -37,190 +39,132 @@ str gr(map[int, map[str, str]] gram) {
 	
 	int c = 0;
 	
-	list[str] leftList = [];
+	list[str] li = [];
+	list[str] operList = [];
 	
 	int sizeMap = size(gram);
 	
-	for (int n <- [0 .. sizeMap]) { 	// 0 .. 10 // 9 .. (-1)
-		if (sizeMap == 2) {				// kun ett tall (NUM og EXPR)
-			str root = min(gram[n]<0>);	// [0] and then only NUM
-			str val = min(gram[n]<1>);	// [0] and then only the integer
+	// 0 .. 10 // 9 .. (-1)
+	for (int n <- [0 .. sizeMap]) {
+		// if only one number (contains NUM and EXPR)	
+		if (sizeMap == 2) {	
+			// only NUM			
+			str root = min(gram[n]<0>);
+			// only the integer
+			str val = min(gram[n]<1>);	
 			
-			return nameChildren("<root>", child("<val>"));
+			return nameChildren("Program", children("<root>", child("<val>")));
 		}
-		else {					// flere enn ett tall
+		// an expression (longer than one number) e.g 1+2
+		else {							
 			
-			tallet = gram[n]<1>;
-			exp = gram[n]<0>;
-			
+		// FIRST  NUMBER
 			if (n == 0) {
-				//left
-				/*
-				str lroot = min(gram[n]<0>);	
-				str lval = min(gram[n]<1>);
-				left = children("<lroot>", child("<lval>")); // { name: 'NUM',  children: [ <{\n name: \'<name>\' \n}> ]\n}\n
-				*/
+				// left
 				println("left: " + min(gram[n]<1>));
-				left = createChildren(n, gram);
-				
+				mainLeft = createChildren(n, gram);
+				left = mainLeft;
 			} else {
+		//OPERATOR and following number
 				if (min(gram[n]<1>) == "+" || min(gram[n]<1>) == "*" || min(gram[n]<1>) == "/") {
-					println("operatorrr " + min(gram[n]<1>));
-					
-					//middle
+					// operator
+					println("operator: " + min(gram[n]<1>));
 					str val = min(gram[n]<1>);
-					oper = child("<val>");						// {\n name: \'<name>\' \n}
+					oper = child("<val>");		
 					
 					//right
-					/*
-					str rroot = min(gram[n+1]<0>);	
-					str rval = min(gram[n+1]<1>);
-					right = children("<rroot>", child("<rval>")); // { name: NUM',  children: [ <{\n name: \'<name>\' \n}> ]\n}\n
-					*/
 					println("right: " + min(gram[n+1]<1>));
 					right = createChildren(n+1, gram);
-					
+				// MORE OPERATOR 
 					if (min(gram[n+3]<1>) == "+" || min(gram[n+3]<1>) == "*" || min(gram[n+3]<1>) == "/") {
-						//println(min(gram[n+7]<1>));
-						if (min(gram[n+3]<1>) == val) {
-							println("inside more operators: " + min(gram[n+]<1>));
-						}
-						
 						println("more operators: " + min(gram[n+3]<1>));
+						li += left;
+						operList += oper;
+
+						left  = right;
+						println("first right, now left: " + min(gram[n+1]<1>));
 						
-						leftList += left;
-						//left
-						/*
-						str lroot = min(gram[n+1]<0>);	
-						str lval = min(gram[n+1]<1>);
-						left = children("<lroot>", child("<lval>")); // { name: 'NUM',  children: [ <{\n name: \'<name>\' \n}> ]\n}\n
-						*/
-						left = createChildren(n+1, gram);
-						println("left: " + min(gram[n+1]<1>));
-						
-						//continue;
-					} else {
-						//set together oof
-						
-						println("set together " + min(gram[n+3]<1>));
-						str expr = min(gram[n+3]<0>);	
-						mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
-						left = mainRight;
-						c = 0;
-						//right =  mainRight;    /////her
-						//println(left);
-						
+				// NOT more operators (the expression aka set together)
+					} else { 
+						// Set together
+						println("sub tree: " + min(gram[n+3]<1>));
+						str expr = min(gram[n+3]<0>);
+						// expression is not the last in map
+						if (n+3 != sizeMap-1) {
+							mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
+							left = mainRight;
+						// if expression is the last in map
+						} else {
+							mainLeft = left;
+							mainRight = right;
+							println("last expression, returns it");
+							result = nameChildren("Program", children(expr, (mainLeft + "," + oper + "," + mainRight)));
+							return result;
+						}
+						// this count is useful for later
+						c = 0;	
 						
 					}
-					
+		// NOT OPERATOR (number and expression) 
 				} else {
-					println(n);
-					//println(sizeMap-1);
-					println();
-					//if ((min(gram[n]<1>) != "+" && min(gram[n]<1>) != "*" && min(gram[n]<1>) != "/")) {	// ikke operatører + ikke den siste
-						if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) { // et uttrykk
-						//!equivalent(typeOf(toInt(min(gram[n]<1>))), typeOf(1))
-							println(min(gram[n]<1>)+" ---- got you!");
+					// NOT number NOR last expression - find the expressions only
+					if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) { // et uttrykk
+						// add sub tree and sub tree
+						println(min(gram[n]<1>)+" ---- got the expression!");
+						c += 1;
+	
+						if (c==2) {
+							c=0;
+							println(min(gram[n]<1>)+" ---- got the expression (the right)!");
+							println("set together AGAIN " + min(gram[n]<1>));
+							str expr = min(gram[n]<0>);	
+							oper = top(operList);
+							right = left;
+							left = top(li);
+							mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
+							left = mainRight;
 							
+							li = [] + left;
 							
-							c += 1;
-							println(c);
-							println();
-							if (c==2) {
-								c=0;
-								
-								
-								//println();
-								
-								println("set together AGAIN " + min(gram[n]<1>));
-								str expr = min(gram[n]<0>);	
-								str oper = min(gram[n]<1>);
-								oper = child("<"*">");	//////////fix
-								right = left;
-								left = top(leftList);
-								mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
-								left = mainRight;
-								
-								leftList = [] + left;
-								println(leftList);
+						}
 						
-								/*
-								println(left);
-								println();
-								println();
-								println(right);
-								println();
-								println();
-								println(top(leftList));
-								*/
-								//println(top(leftList));
-							}
-						//}
-					} //else {
-		
-					// siste
+					}/* else { //no need for else here
+						a;
+					}*/
+		// LAST EXPRESSION in map
 					if (n == sizeMap-1) {
-				
-						// put together with main rooooot
+						println(min(gram[n]<1>)+" ---- last expression!");
 						str expr = min(gram[n]<0>);
-						str op = "*";
-						op = child("<op>");
-						/*
-						for (f <- l) {
-							mainLeft += f + ",";
-						}
-						*/
-						//println(size(l));
-						//println(expr+" -----");
 						
-						/*mainLeft = childrenAndChildren(expr, op, leftList);*/
-						
-						//print(mainLeft);
-						//println(ok);
-						//int s = size(leftList);
-						
-						if (size(leftList) == 0) {
-							result = nameChildren("Program", (mainLeft + mainRight));
+						if (size(li) == 0) {
+							result = nameChildren("Program",  children(expr, (mainLeft + "," + oper + "," + mainRight)));
 							println("list is empty");
-						} else {
-							if (size(leftList) == 1) {	
-								mainLeft = top(leftList);
-								println("only oneeeee");
-								mainRight = right;    ////   
-								
-							} else { // 2 or more in list
-								//mainLeft = childrenAndChildren(expr, op, leftList);
-								mainLeft = top(leftList);
-								println(leftList);
-								println("moreeeeeeee");
-							}
-							result = nameChildren("Program", children(expr, (mainLeft + "," + op + "," + mainRight)));
+						}  else {
+								if (size(li) == 1) {	
+									mainLeft = top(li);
+									oper = top(operList);
+									println("only one in list");
+									
+								} else {
+									// take the last one in list
+									mainLeft = last(li);
+									oper = top(operList);
+									//println(size(li));
+									println("more in list");
+								}
+							result = nameChildren("Program", children(expr, (mainLeft + "," + oper + "," + mainRight)));
 							println("took from list");
-							
-							
-							println(left);
-							println();
-							println();
-							println(right);
-							println();
-							println();
-							
-							//println(mainRight);
-							//println(mainight);
-							
 						}
-						//}
 					}
 				}
 			}
-			
 		}
 		
-		//result += "<n>";
-	}
+	} 
 	return result;
 }
 
+// no need for this..yet
 public str childrenAndChildren(str name, str oper, list[str] leftList)  {
 	str left = "";
 	
@@ -235,69 +179,28 @@ public str childrenAndChildren(str name, str oper, list[str] leftList)  {
 	return left;
 }
 
-public str createChildren(int n, map[int, map[str, str]] gram) {	//n in list
-	str root = min(gram[n]<0>);	
+public str createChildren(int n, map[int, map[str, str]] gram) {	
+	str name = min(gram[n]<0>);	
 	str val = min(gram[n]<1>);
-	return children("<root>", child("<val>"));
+	return children("<name>", child("<val>"));
 
 }
 
-/*
-
-	"
-	name: \'MultExpr\',
-	children: [{
-	  name: \'PlusExpr\',
-	  children: [{
-	    name: \'NUM\',
-	    children: [{
-	    	name: \'1\'
-	    }]
-	  }, 
-	  
-	  	{
-	    name: \'\"+\"\'
-	  }, 
-	  
-	  	{
-	  	name: \'NUM\',
-	    children: [{
-	    	name: \'2\'
-	    }]
-	  }
-	  
-	  ]
-	}
-	
-	, {
-	  name: \'\"*\"\'
-	    },{
-	  name: \'NumExpr\',
-	  children: [{
-	  	name: \'NUM\',
-	    children: [{
-	    	name: \'3\'
-	    }]
-	  }]
-	}]
-	"
-
-*/
-
+// not the best code but time is limited
 str first(str grammatikk) = 
 "
-drawTree({
+parseTree({
   divID: \'viz\',
   width: 600,
   height: 300,
   padding: 50,
-  treeData: { <grammatikk> }
+  data: { <grammatikk> }
 })
 ";
 
 str rest() = 
 "
-function drawTree(o) {
+function parseTree(o) {
 
   d3.select(\"#\" + o.divID).select(\"svg\").remove()
 
@@ -318,7 +221,7 @@ function drawTree(o) {
       return [d.x, d.y];
     });
 
-  var nodes = tree.nodes(o.treeData);
+  var nodes = tree.nodes(o.data);
 
   var link = vis.selectAll(\"pathlink\")
     .data(tree.links(nodes)).enter()
@@ -336,8 +239,12 @@ function drawTree(o) {
   node.append(\"circle\")
     .attr(\"r\", 10)
     .style(\"fill\", function(d) {
-      return (d.children) ? \"#E14B3B\" : \"#1C8B98\"
+      return (d.children) ? \"#68A5BA\" : \"#A8C7D0\"
     });
+    
+    d3.select(\"body\")
+    .style(\"background-color\", \"#F4F4F4\");
+    
 
   node.append(\"svg:text\")
     .attr(\"dx\", function(d) {
@@ -354,14 +261,6 @@ function drawTree(o) {
     })
 }
 
-function createTree() {
-	var textInput = document.getElementById(\'text\').value;
-	console.log(textInput);
-	return textInput;
-	/*location.href = \"file:///Users/emilyminguyen/uib/7.semester/INF225/termproject/web-based-syntax-grammar-explorer/src/webapp/demoRunAppp.html\";
-	*/
-}
-/*createTree();*/
 ";
 
 

@@ -14,9 +14,6 @@ import IO;
 import Type;
 import Map;
 
-//import grammars::tester;
-
-//import demo::lang::Pico::Syntax;
 /*
 lexical Whitespace = [\ \n];
 layout MyLayout = Whitespace*;       // !>> [\ \n]
@@ -47,7 +44,6 @@ lexical Expr2 // should be equivalent to Expr
    
 */
 public map[int, map[str, str]] getTreeNodes(Tree t) {
-	//li = [];
 	dic = ();
 	subdic = ();
 	i = 0;
@@ -76,7 +72,6 @@ public map[int, map[str, str]] getTreeNodes(Tree t) {
         
         case a : appl(prod(s,_,_),_): {
             //println("<printSymbol(s, false)>: ‘<a>’");
-            //li = li + "<printSymbol(s, true)>: ‘<a>’";
             if (("<a>") != ("")) {
             	//println("<printSymbol(s, false)>: ‘<a>’");
 	        	subdic = ("<printSymbol(s, false)>" : "<a>");
@@ -106,10 +101,10 @@ void main() {
 	//println("heeer: ", a);
 	
 	//render(visParsetree(parseExp("1+2*3")));
-	render(visParsetree(parse(#Exp,"0+(1*2)")));
+	//render(visParsetree(parse(#Exp,"0+(1*2)")));
 	
-	teste = getTreeNodes(parse(#Exp, "0+(1*2)"));
-	println(teste);
+	//teste = getTreeNodes(parse(#Exp, "0+(1*2)"));
+	//println(teste);
 	
 	//println(visParsetree(parse(#Exp, "1+2*3")));
 	//visParsetree(parse(#Exp, "1+2*3"));

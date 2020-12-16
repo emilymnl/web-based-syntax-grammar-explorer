@@ -5,17 +5,18 @@ import examples::Test;
 import Map;
 import IO;
 
-import Type; 	//typeOf
+import Type; 	// typeOf
 import Set;
 import List; 	// size
-import String; 	//toInt contains
+import String; 	// toInt and contains
 
 
 public str js(str content) = "<content>";
 
+// the main one
 public str jsFilled(map[int, map[str, str]] gram) = js(first(gr(gram)) + rest());
 
-// 3d.js
+// for 3d.js
 public str name(str name) = "name: \'<name>\'\n";
 
 public str child(str name) = "{\n name: \'<name>\' \n}"; 
@@ -41,73 +42,79 @@ str gr(map[int, map[str, str]] gram) {
 	
 	int sizeMap = size(gram);
 	
-	for (int n <- [0 .. sizeMap]) { 	// 0 .. 10 // 9 .. (-1)
-		if (sizeMap == 2) {				// if only one number (contains NUM and EXPR)
-			str root = min(gram[n]<0>);	// only NUM
-			str val = min(gram[n]<1>);	// only the integer
+	// 0 .. 10 // 9 .. (-1)
+	for (int n <- [0 .. sizeMap]) {
+		// if only one number (contains NUM and EXPR)	
+		if (sizeMap == 2) {	
+			// only NUM			
+			str root = min(gram[n]<0>);
+			// only the integer
+			str val = min(gram[n]<1>);	
 			
 			return nameChildren("Program", children("<root>", child("<val>")));
 		}
-		else {							// an expression (longer than one number) e.g 1+2
+		// an expression (longer than one number) e.g 1+2
+		else {							
 			
 		// FIRST  NUMBER
 			if (n == 0) {
 				// left
-				//println("left: " + min(gram[n]<1>));
+				println("left: " + min(gram[n]<1>));
 				mainLeft = createChildren(n, gram);
 				left = mainLeft;
-				
 			} else {
-			
 		//OPERATOR and following number
 				if (min(gram[n]<1>) == "+" || min(gram[n]<1>) == "*" || min(gram[n]<1>) == "/") {
-					//println("operator: " + min(gram[n]<1>));
-					
 					// operator
+					println("operator: " + min(gram[n]<1>));
 					str val = min(gram[n]<1>);
 					oper = child("<val>");		
 					
 					//right
-					//println("right: " + min(gram[n+1]<1>));
+					println("right: " + min(gram[n+1]<1>));
 					right = createChildren(n+1, gram);
-				// MORE OPERATOR (is it the same oper or another one)
+				// MORE OPERATOR 
 					if (min(gram[n+3]<1>) == "+" || min(gram[n+3]<1>) == "*" || min(gram[n+3]<1>) == "/") {
-						
-						//println("more operators: " + min(gram[n+3]<1>));
+						println("more operators: " + min(gram[n+3]<1>));
 						li += left;
 						operList += oper;
 
 						left  = right;
-						//println("first right, now left: " + min(gram[n+1]<1>));
+						println("first right, now left: " + min(gram[n+1]<1>));
 						
-				// NOT more operators (the  expression aka set together)
+				// NOT more operators (the expression aka set together)
 					} else { 
 						// Set together
-						//println("sub tree: " + min(gram[n+3]<1>));
+						println("sub tree: " + min(gram[n+3]<1>));
 						str expr = min(gram[n+3]<0>);
-						if (n+3 != sizeMap-1) {	// everything except the last in map
+						// expression is not the last in map
+						if (n+3 != sizeMap-1) {
 							mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
 							left = mainRight;
-						} else {		// if expression is the last in map
+						// if expression is the last in map
+						} else {
 							mainLeft = left;
 							mainRight = right;
-							//println("heeeeer");
+							println("last expression, returns it");
+							result = nameChildren("Program", children(expr, (mainLeft + "," + oper + "," + mainRight)));
+							return result;
 						}
-						c = 0;	// this count is useful for later
+						// this count is useful for later
+						c = 0;	
 						
 					}
 		// NOT OPERATOR (number and expression) 
 				} else {
 					// NOT number NOR last expression - find the expressions only
 					if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) { // et uttrykk
-						// add subtree and subtree
-						//println(min(gram[n]<1>)+" ---- got the expression!");
+						// add sub tree and sub tree
+						println(min(gram[n]<1>)+" ---- got the expression!");
 						c += 1;
-						
+	
 						if (c==2) {
 							c=0;
-							//println(min(gram[n]<1>)+" ---- got the expression!");
-							//println("set together AGAIN " + min(gram[n]<1>));
+							println(min(gram[n]<1>)+" ---- got the expression (the right)!");
+							println("set together AGAIN " + min(gram[n]<1>));
 							str expr = min(gram[n]<0>);	
 							oper = top(operList);
 							right = left;
@@ -116,7 +123,7 @@ str gr(map[int, map[str, str]] gram) {
 							left = mainRight;
 							
 							li = [] + left;
-							//println(li);
+							
 						}
 						
 					}/* else { //no need for else here
@@ -124,26 +131,27 @@ str gr(map[int, map[str, str]] gram) {
 					}*/
 		// LAST EXPRESSION in map
 					if (n == sizeMap-1) {
-						//println(min(gram[n]<1>)+" ---- last expression!");
+						println(min(gram[n]<1>)+" ---- last expression!");
 						str expr = min(gram[n]<0>);
 						
 						if (size(li) == 0) {
 							result = nameChildren("Program",  children(expr, (mainLeft + "," + oper + "," + mainRight)));
-							//println("list is empty");
+							println("list is empty");
 						}  else {
 								if (size(li) == 1) {	
 									mainLeft = top(li);
 									oper = top(operList);
-									//println("only oneeeee");
+									println("only one in list");
 									
-								} else { // 2 or more in list
-									mainLeft = top(li);
+								} else {
+									// take the last one in list
+									mainLeft = last(li);
 									oper = top(operList);
-									//println("moreeeeeeee");
+									//println(size(li));
+									println("more in list");
 								}
-							
 							result = nameChildren("Program", children(expr, (mainLeft + "," + oper + "," + mainRight)));
-							//println("took from list");
+							println("took from list");
 						}
 					}
 				}
@@ -169,14 +177,14 @@ public str childrenAndChildren(str name, str oper, list[str] leftList)  {
 	return left;
 }
 
-public str createChildren(int n, map[int, map[str, str]] gram) {	//n in list
+public str createChildren(int n, map[int, map[str, str]] gram) {	
 	str name = min(gram[n]<0>);	
 	str val = min(gram[n]<1>);
 	return children("<name>", child("<val>"));
 
 }
 
-
+// not the best code but time is limited
 str first(str grammatikk) = 
 "
 parseTree({
@@ -250,17 +258,6 @@ function parseTree(o) {
       return d.name;
     })
 }
-/*
-function createTree() {
-	var textInput = document.getElementById(\'myBtn\').textContent;
-	console.log(textInput);
-	return textInput;
-}
-
-function str myFunction() {
-  var x = document.getElementById(\"myBtn\").value;
-  document.getElementById(\"demo\").innerHTML = x;  
-} */
 
 ";
 

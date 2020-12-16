@@ -1,5 +1,7 @@
 module webapp::testMain
 
+// some tests with main + syntax 
+
 import webapp::RunApp;
 
 public str nesteMain(str text, str gram) {

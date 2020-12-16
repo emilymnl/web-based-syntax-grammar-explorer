@@ -46,29 +46,26 @@ syntax Expr
 */
 void main() {
 	startServer();
-	//println(parse(#Expr, "1+2"));
-	//iprintln(#Expr.definitions);
-	//startServer(s);
-	//shutdownServer();
 }
 
 void startServer() {
 	str s = "1+2*3+4"; // initial text
+	str tempGrammar = ""; // initial empty grammar
 	
 	map[int, map[str, str]] mapOfNodes = getGrammar(s); 
 	
 	set[str] exprr = mapOfNodes[(size(mapOfNodes)-1)]<1>;	// get the input final expression of the tree
-	str expression = min(exprr);								// min() removes { and } and only returns the string
-	//writeFile(expression, mapOfNodes);					// legge til html, med css og js (treet).
+	str expression = min(exprr);							// min() removes { and } and only returns the string
+	//writeFile(expression, mapOfNodes);					// adds the html, with css and js (the tree).
 	
-	str tempGrammar = "";
+	
 	// this serves the initial form
 	Response myServer(get("/")) 
 	  = response(htmlFilled(expression, tempGrammar, mapOfNodes));
 	             
 	println("------- STARTED SERVER -------");
 	
-	// this responds to the form submission, now using a function body with a return (just for fun):
+	// this responds to the form submission
 	Response myServer(p:get("/submit")) {
 		str tex = "<p.parameters["text"]>";
 		str nTex = replaceAll(tex, "\n", "");
@@ -77,53 +74,17 @@ void startServer() {
 		println("teksten: " +rTex);
 		
 		str grammar = "<p.parameters["grammar"]>";
-		/*
-		str nGrammar = replaceAll(grammar, "\n", "");
-		str tGrammar = replaceAll(nGrammar, "\t", "");
-		str rGrammar = replaceAll(tGrammar, "\r", "");
-		str sGrammar = replaceAll(rGrammar, " ", " ");*/
 		if (grammar != "") {
 			try {
 				println("----- grammar");
-				//shutdownServer();
-				writeFile(|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|, grammarFilled(rTex,grammar));
-				//setModules = {|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|};
-				//Grammar something = modules2grammar(userGram, setModules);
 				
-				/*Module m = parse(#start[Module], "module Dummy
-			                                     '
-			                                     '<newText>").top;
-			    Grammar gm = modules2grammar("Dummy", {m});
-			    
-			    if (s notin gm.rules<0>) {
-				     if (x:\start(_) <- gm.rules) {
-				       s = x;
-				     }
-				     else if (x <- gm.rules) {
-				       s = x;
-				     }
-				   }
-				   
-				   if (type[Tree] gr := type(s, gm.rules)) {
-				     return gr;
-				   }
-				   
-				   throw "could not generate a proper grammar: <gm>";*/
-				   
-				//str readGrammar = readFile(|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|);
-				// get list of grammar
-				println(grammar);
-				//println(something);
-				//main();
-				mapOfNodes = userGram(rTex);
+				//currently dont do anything - im fixing this
 				
 				//shutdownServer();
-				//main();
-				//shutdownServer();
-				//writeFile(|project://web-based-syntax-grammar-explorer/src/webapp/RunTest.rsc|, nesteMain(rTex, grammar));
+				//writeFile(|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|, grammarFilled(rTex,grammar));
 				
-				//main2();
-				//mapOfNodes = getGrammar2(rTex);
+				//println(grammar);
+				//mapOfNodes = userGram(rTex);
 
 				
 			} catch ParseError(loc l): {
@@ -133,24 +94,23 @@ void startServer() {
 		} else {
 			try {
 	  			mapOfNodes = getGrammar(rTex);
-	  			println("00000000000 text2");
+	  			println("trying the new text input");
 			}
 			catch ParseError(loc l): {
 	  			println("Parse error at line <l.begin.line>, column <l.begin.column>");
 	  			
-	  			return response(htmlFilled(tex, grammar, mapOfNodes));
+	  			//return response(htmlFilled(tex, grammar, mapOfNodes));
 			}
 		}
 		
 	   	return response(htmlFilled(tex, grammar, mapOfNodes));
-	   	//return response(t);
 	   	
 	}
 	
 	// in case of failing to handle a request, we dump the request back for debugging purposes:
 	default Response myServer(Request q) = response("<q>");
 	
-	//start
+	//start server
 	serve(|http://localhost:10001|, myServer);
 	//shutdownServer();
 }
@@ -178,27 +138,7 @@ void writeFile(str expression, map[int, map[str, str]] gram){
 	cssFilled()
 	);
 }*/
-/*
-void startServer(str expression, map[int, map[str, str]] gram) {
-	
-	// this serves the initial form
-	Response myServer(get("/")) 
-	  = response(htmlFilled(expression, gram));
-	             
-	println("------- STARTED SERVER -------");
-	
-	// this responds to the form submission, now using a function body with a return (just for fun):
-	Response myServer(p:get("/submit")) {
-	   return response(htmlFilled(p.parameters["text"], gram));
-	}
-	
-	// in case of failing to handle a request, we dump the request back for debugging purposes:
-	default Response myServer(Request q) = response("<q>");
-	
-	//start
-	serve(|http://localhost:10001|, myServer);
 
-}*/
 
 void shutdownServer() {
 	//shutdown(|http://localhost:8080|);

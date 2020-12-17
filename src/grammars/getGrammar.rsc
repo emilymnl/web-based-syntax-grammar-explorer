@@ -86,11 +86,11 @@ public map[int, map[str, str]] getTreeNodes(Tree t) {
 }
 
 void main() {
-	//str ex = "4+5";
+	str ex = "4+5";
 	//visParsetree(parse(#Exp, "1+2*3"));
 	//printlnExp(parseExp(ex));
 	//iprintln(parse(#Expr, "2+3*4"));
-	//tree = parse(#Exp, "2+3*4");
+	//tree = parse(#Exp, "2+3");
 	//iprintln(tree);
 	//iprintln(#Exp.definitions);
 	//parse(type(sort("Exp"), definitionsMap));
@@ -103,8 +103,8 @@ void main() {
 	//render(visParsetree(parseExp("1+2*3")));
 	//render(visParsetree(parse(#Exp,"0+(1*2)")));
 	
-	//teste = getTreeNodes(parse(#Exp, "0+(1*2)"));
-	//println(teste);
+	teste = parse(#Exp, "1+2");
+	println(teste);
 	
 	//println(visParsetree(parse(#Exp, "1+2*3")));
 	//visParsetree(parse(#Exp, "1+2*3"));

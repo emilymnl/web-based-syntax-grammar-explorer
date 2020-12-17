@@ -1,26 +1,15 @@
 module grammars::UserGrammar
 
-import ParseTree;
-//import demo::lang::Exp::Combined::Automatic::Parse;
-import grammars::getGrammar;
-import Map;
-
 lexical Whitespace = [\ \n];
 layout MyLayout = Whitespace*;
-lexical NUMw = [0-9]+;
+lexical NUM = [0-9]+;
 lexical Id = [a-z]+;
 
-syntax Expr
-    = NUMw 
-    | Id Expr
-    > left Expr "+" Expr
-    > left Expr "*" Expr
-    > left Expr "/" Expr
-    | "("  Expr  ")"
-;
+syntax Exprr
+    = NUM 
+    | Id Exprr
+    > left Exprr "+" Exprr
+    > left Exprr "*" Exprr
+    | "("  Exprr  ")"
+    ;
 
-
-public map[int, map[str, str]] userGram(str text) {
-	mapOfNodes = getTreeNodes(parse(#Expr, text));
-	return mapOfNodes;
-}

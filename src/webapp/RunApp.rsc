@@ -27,6 +27,9 @@ import Type;
 import Set;
 import Module;
 
+import webapp::te;
+import Symbol;
+
 void main() {
 	startServer();
 }
@@ -60,18 +63,51 @@ void startServer() {
 		println("teksten: " +rTex);
 		
 		str grammar = "<p.parameters["grammar"]>";
+		str nGr = replaceAll(grammar, "\n", "");
+		str tGr = replaceAll(nGr, "\t", "");
+		str rGr = replaceAll(tGr, "\r", "");
 		if (grammar != "") {
 			try {
 				println("----- grammar");
+				
 				
 				//currently dont do anything - im fixing this
 				
 				//shutdownServer();
 				//writeFile(|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|, grammarFilled(rTex,grammar));
 				
-				//println(grammar);
-				//mapOfNodes = userGram(rTex);
-
+				//type[Tree] e = commitGrammar(#Exprr, rTex);
+				 type[Tree] e = commitGrammar(\sort("Expr"), grammar);
+			                                      
+             	 //Grammar gm = modules2grammar("Dummy", {m});
+			     //println(gm.rules<0>);
+			                                      
+   				//mapOfNodes = getTreeNodes(e);
+   				//mapOfNodes = getTreeNodes(g);
+   				println(typeOf(e[0]));
+   				println(e[0]);
+   				println("what the actual");
+   				/*
+   				lexical Whitespace = [\ \n];
+				layout MyLayout = Whitespace*;
+				lexical NUM = [0-9]+;
+				lexical Id = [a-z]+;
+				
+				start syntax Expr
+				    = NUM 
+				    | Id Expr
+				    > left Expr "+" Expr
+				    > left Expr "*" Expr
+				    | "("  Expr  ")"
+				    ;
+   				*/
+   				
+   				mapOfNodes = getTreeNodes(parse(e, rTex));
+   				// {layouts("$default$"),empty(),sort("Exprr"),lex("Id"),lex("Whitespace"),layouts("MyLayout"),start(sort("Exprr")),lex("NUM")}
+   				// sort("Expr")
+   				// adt("Symbol",[])
+   				// start(sort("Exprr"))
+   				// reified(start(sort("Exprr")))
 				
 			} catch ParseError(loc l): {
 			  	println("Grammar error at line <l.begin.line>, column <l.begin.column>");
@@ -100,6 +136,29 @@ void startServer() {
 	serve(|http://localhost:10001|, myServer);
 	//shutdownServer();
 }
+/*
+type[Tree] commitGrammar(Symbol s, str newText) {
+   Module m = parse(#start[Module], "module Dummy
+                                    '
+                                    '<newText>").top;
+                                    
+   Grammar gm = modules2grammar("Dummy", {m});*/
+   /*
+   if (s notin gm.rules<0>) {
+     if (x:\start(_) <- gm.rules) {
+       s = x;
+     }
+     else if (x <- gm.rules) {
+       s = x;
+     }
+   }
+   
+   if (type[Tree] gr := type(s, gm.rules)) {
+     return gr;
+   }*/
+   
+   //throw "could not generate a proper grammar: <gm>";
+//}
 
 map[int, map[str, str]] getGrammar(str s) {
 	//mapOfNodes = getTreeNodes(s); // get standard grammar from library

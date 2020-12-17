@@ -1,7 +1,5 @@
 module grammars::getGrammar
 
-//import demo::lang::Exp::Concrete::WithLayout::Syntax;
-//import demo::lang::Exp::Concrete::NoLayout::Syntax;
 import ParseTree;
 import vis::Figure;
 import vis::ParseTree;

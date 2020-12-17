@@ -1,7 +1,6 @@
 module webapp::runApp
 
 import demo::lang::Exp::Concrete::NoLayout::Syntax;
-//import demo::lang::Exp::Combined::Automatic::Parse;
 import ParseTree;
 import IO;
 import List;

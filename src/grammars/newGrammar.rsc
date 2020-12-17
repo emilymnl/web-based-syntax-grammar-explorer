@@ -11,16 +11,6 @@ public type[Tree] modifyGrammar(Symbol s, str newText) {
                                     '<newText>").top;
                                     
    Grammar gm = modules2grammar("Dummy", {m});
-   //println(gm.rules<0>);
-   /*
-   if (s notin gm.rules<0>) {
-     if (x:\start(_) <- gm.rules) {
-       s = x;
-     }
-     else if (x <- gm.rules) {
-       s = x;
-     }
-   }*/
    
    if (type[Tree] gr := type(s, gm.rules)) {
      return gr;

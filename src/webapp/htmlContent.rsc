@@ -1,5 +1,7 @@
 module webapp::htmlContent
 
+// NOTE: This is where it is decided how the index file on browser should look like
+
 import IO;
 import util::Math;
 import Type;

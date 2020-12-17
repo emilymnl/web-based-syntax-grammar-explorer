@@ -3,28 +3,23 @@ module webapp::runApp
 import demo::lang::Exp::Concrete::NoLayout::Syntax;
 //import demo::lang::Exp::Combined::Automatic::Parse;
 import ParseTree;
-
 import IO;
 import List;
-import grammars::getGrammar;
-import webapp::htmlContent;
-
-import grammars::GrammarContent;
 import Map;
-
-import util::Webserver;
-import Content;
-
-import util::Math;
 import String;
-import grammars::UserGrammar;
-
 import Type;
 import Set;
 import Module;
-
-import grammars::newGrammar;
 import Symbol;
+
+import grammars::getGrammar;
+import grammars::newGrammar;
+import webapp::htmlContent;
+
+// server
+import util::Webserver;
+import Content;
+
 
 void main() {
 	startServer();
@@ -45,7 +40,7 @@ void startServer() {
 	
 	// this serves the initial form
 	Response myServer(get("/")) 
-	  = response(htmlFilled(expression, grammar, mapOfNodes));
+	  = response(htmlFilled(expression, grammar, mapOfGrammar));
 	             
 	println("------- STARTED SERVER -------");
 	

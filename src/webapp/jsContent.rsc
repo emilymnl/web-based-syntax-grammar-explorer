@@ -2,13 +2,11 @@ module webapp::jsContent
 
 // NOTE: This is where it is decided how the tree should look like
 
-import examples::Test;
-
 import Map;
 import IO;
 
 import Type; 	// typeOf
-import Set;
+import Set;		// min
 import List; 	// size
 import String; 	// toInt and contains
 
@@ -37,7 +35,7 @@ str gr(map[int, map[str, str]] gram) {
 	str oper = "";
 	str left = "";
 	
-	int c = 0;
+	int counter = 0;
 	
 	list[str] li = [];
 	list[str] operList = [];
@@ -102,7 +100,7 @@ str gr(map[int, map[str, str]] gram) {
 							return result;
 						}
 						// this count is useful for later
-						c = 0;	
+						counter = 0;	
 						
 					}
 		// NOT OPERATOR (number and expression) 
@@ -111,10 +109,10 @@ str gr(map[int, map[str, str]] gram) {
 					if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) { // et uttrykk
 						// add sub tree and sub tree
 						println(min(gram[n]<1>)+" ---- got the expression!");
-						c += 1;
+						counter += 1;
 	
-						if (c==2) {
-							c=0;
+						if (counter == 2) {
+							counter = 0;
 							println(min(gram[n]<1>)+" ---- got the expression (the right)!");
 							println("set together AGAIN " + min(gram[n]<1>));
 							str expr = min(gram[n]<0>);	
@@ -262,6 +260,5 @@ function parseTree(o) {
 }
 
 ";
-
 
 

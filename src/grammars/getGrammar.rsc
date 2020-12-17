@@ -18,9 +18,9 @@ public map[int, map[str, str]] getGrammarMap(Tree t) {
    	visit(t) {
         case a : appl(prod(s,_,_),_): {
             if (("<a>") != ("")) {
-	        	subdic = ("<printSymbol(s, false)>" : "<a>");
-	            dic = dic + (i : subdic);
-	            i = i + 1;
+            	subdic = ("<printSymbol(s, false)>" : "<a>");
+            	dic = dic + (i : subdic);
+            	i = i + 1;
             }   
         }		
     }

@@ -4,9 +4,7 @@ public str css(str content) = "<content>";
 
 public str cssFilled() = css(s);
 
-str s = 
-"
-html {
+str s = "html {
   text-align: center;
 }
   

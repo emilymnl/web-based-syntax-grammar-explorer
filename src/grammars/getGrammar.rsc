@@ -1,10 +1,7 @@
 module grammars::getGrammar
 
 //import demo::lang::Exp::Concrete::WithLayout::Syntax;
-import demo::lang::Exp::Concrete::NoLayout::Syntax;
-//import demo::lang::Exp::Combined::Manual::Parse;
-//import demo::lang::Exp::Combined::Automatic::Parse;
-//import grammar::Expr;
+//import demo::lang::Exp::Concrete::NoLayout::Syntax;
 import ParseTree;
 import vis::Figure;
 import vis::ParseTree;

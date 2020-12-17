@@ -1,5 +1,7 @@
 module grammars::GrammarContent
 
+// NOTE: Not used
+
 public str grammarFilled(str s, str grammar) {
 
 	str content = "module grammars::UserGrammar\n\n"+

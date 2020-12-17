@@ -1,5 +1,7 @@
 module grammars::tester
 
+// NOTE: Not used
+
 import demo::lang::Exp::Concrete::NoLayout::Syntax;
 import demo::lang::Exp::Combined::Automatic::Parse;
 import ParseTree;
@@ -12,7 +14,7 @@ import IO;
 import util::Webserver;
 import Content;
 
-/*
+
 lexical Whitespace = [\ \n];
 layout MyLayout = Whitespace*;
 lexical NUM = [0-9]+;
@@ -25,14 +27,14 @@ syntax Expr
     > left Expr "*" Expr
     | "("  Expr  ")"
     ;
-*/
+
 lexical NUM = [0-9]+;
 lexical Id = [a-z]+;
 
 start syntax Expr = NUM | Id Expr > left Expr "+" Expr > left Expr "*" Expr;
 
 void main() {
-	
+	/*
 	str gs = trim(readFile(|project://web-based-syntax-grammar-explorer/src/grammars/UserGrammar.rsc|));
                                     
 	str name = split("\n",split("module ",gs)[1])[0];
@@ -43,7 +45,7 @@ void main() {
 	Grammar g = modules2grammar(name,{parse(#Expr, name)});
 	//println("The g: " + g);
 	
-	pp(normalise(grammar2grammar(g)));
+	pp(normalise(grammar2grammar(g)));*/
 	//println((parse(#Exp, "1+2*3+4")));
 	
 	// this serves the initial form

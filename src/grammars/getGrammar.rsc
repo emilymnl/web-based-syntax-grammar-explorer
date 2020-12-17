@@ -17,28 +17,7 @@ public map[int, map[str, str]] getGrammarMap(Tree t) {
 	subdic = ();
 	i = 0;
 
-   	visit(t) {/*
-    	case (Expr2)`<Expr2 left>*<Expr2 right>`: {
-			//println("MultiExpr: ´<left> * <right>´");
-			subdic = ("MultExpr" : "<left>*<right>");
-            dic = dic + (i : subdic);
-            i = i + 1;
-		}
-		
-		case (Expr2)`<Expr2 left>+<Expr2 right>`: {
-			//println("PlusExpr: ´<left> + <right>´");
-			subdic = ("PlusExpr" : "<left>+<right>");
-            dic = dic + (i : subdic);
-            i = i + 1;
-		}
-		
-		case (Expr2)`<Expr2 left>/<Expr2 right>`: {
-			//println("PlusExpr: ´<left> / <right>´");
-			subdic = ("DivExpr" : "<left>/<right>");
-            dic = dic + (i : subdic);
-            i = i + 1;
-		}*/
-        
+   	visit(t) {
         case a : appl(prod(s,_,_),_): {
             if (("<a>") != ("")) {
 	        	subdic = ("<printSymbol(s, false)>" : "<a>");

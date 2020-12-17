@@ -36,15 +36,12 @@ void startServer() {
 	// initial empty grammar
 	str grammar = ""; 
 	
-	map[int, map[str, str]] mapOfNodes = getGrammar(text); 
+	map[int, map[str, str]] mapOfGrammar = getGrammarMap(parse(#Exp, text));; 
 	
-	// get the input final expression of the tree
-	set[str] exprr = mapOfNodes[(size(mapOfNodes)-1)]<1>;
+	// get the last expression of the tree
+	set[str] ex = mapOfGrammar[(size(mapOfGrammar)-1)]<1>;
 	// min() removes { and } and only returns the string	
-	str expression = min(exprr);
-	// adds the html, with css and js (the tree).							
-	//writeFile(expression, mapOfNodes);					
-	
+	str expression = min(ex);					
 	
 	// this serves the initial form
 	Response myServer(get("/")) 
@@ -67,14 +64,14 @@ void startServer() {
 				// transforms the grammar input into a reified type that includes the grammar in abstract form
 				type[Tree] typeTreeGrammar = modifyGrammar(\sort("Expr"), grammar);
    				// making map of the grammar for the parse tree, when parsing the text and the grammar from user
-   				mapOfNodes = getTreeNodes(parse(typeTreeGrammar, rTex));
+   				mapOfGrammar = getGrammarMap(parse(typeTreeGrammar, rTex));
 				
 			} catch ParseError(loc l): {
 			  	println("Grammar error at line <l.begin.line>, column <l.begin.column>");
 			}
 		} else {
 			try {
-	  			mapOfNodes = getGrammar(rTex);
+	  			mapOfGrammar = getGrammarMap(parse(#Exp, rTex));
 	  			println("trying the new text input from user");
 			}
 			catch ParseError(loc l): {
@@ -82,7 +79,7 @@ void startServer() {
 			}
 		}
 		
-	   	return response(htmlFilled(text, grammar, mapOfNodes));
+	   	return response(htmlFilled(text, grammar, mapOfGrammar));
 	   	
 	}
 	
@@ -93,30 +90,6 @@ void startServer() {
 	serve(|http://localhost:10001|, myServer);
 	//shutdownServer();
 }
-
-map[int, map[str, str]] getGrammar(str s) {
-	//mapOfNodes = getTreeNodes(s); // get standard grammar from library
-	mapOfNodes = getTreeNodes(parse(#Exp, s));
-	return mapOfNodes;
-}
-/*
-// dont need this anymore if i host it on a server - but nice temporarily
-void writeFile(str expression, map[int, map[str, str]] gram){
-	// html
-	writeFile(|file:///Users/emilyminguyen/uib/7.semester/INF225/termproject/web-based-syntax-grammar-explorer/src/webapp/demoRunApp.html|, 
-	htmlFilled(expression, gram)
-	);
-	
-	// js
-	writeFile(|file:///Users/emilyminguyen/uib/7.semester/INF225/termproject/web-based-syntax-grammar-explorer/src/webapp/demoRunApp.js|, 
-	jsFilled(gram)
-	);
-	
-	//css
-	writeFile(|file:///Users/emilyminguyen/uib/7.semester/INF225/termproject/web-based-syntax-grammar-explorer/src/webapp/demoRunApp.css|, 
-	cssFilled()
-	);
-}*/
 
 void shutdownServer() {
 	shutdown(|http://localhost:10001|);

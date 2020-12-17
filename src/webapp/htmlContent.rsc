@@ -7,10 +7,12 @@ import Type;
 import webapp::jsContent;
 import webapp::cssContent;
 
+// defining html tags
 public str tags(str operator, str attributes, str content) = "\<<operator><attributes>\>\n<content>\</<operator>\>\n";
 
 public str tagsOneOperator(str operator, str attributes) = "\<<operator><attributes>\>\n";
 
+// typical html tags
 public str firsline() = "\<!DOCTYPE html\>\n";
 
 public str html(str content) = tags("html", "", content);
@@ -21,11 +23,10 @@ public str header(str content) = tags("header", "", content);
 
 public str body(str content) = tags("body", "", content);
 
+// extra html tags 
 public str ul(str attributes, str content) = tags("ul", attributes, content); 
 
 public str li(str attributes, str content) = tags("li", attributes, content);
-
-// extra ones below
 
 public str h2(str attributes, str content) = tags("h2", attributes, content);
 
@@ -45,17 +46,17 @@ public str input(str attributes, str content) = tags("input", attributes, conten
 
 public str div(str attributes, str content) = tags("div", attributes, content);
 
-// js
+// js tags
 public str script(str attributes, str content) = tags("script", attributes, content);
 
 public str textscript(str attributes, str content) = tags("script", attributes, content);
 
-//css
+// css tags
 public str link(str attributes) = tagsOneOperator("link", attributes);
 
 public str style(str content) = tags("style", "", content);
 
-// the page
+// the index page with all the needed tags and attributes
 public str htmlFilled(str expression, str userGram, map[int, map[str, str]] gram) {
 	str page = 
 	firsline() + 

@@ -40,7 +40,7 @@ lexical Expr2 // should be equivalent to Expr
     ;
    
 */
-public map[int, map[str, str]] getTreeNodes(Tree t) {
+public map[int, map[str, str]] getGrammarMap(Tree t) {
 	dic = ();
 	subdic = ();
 	i = 0;

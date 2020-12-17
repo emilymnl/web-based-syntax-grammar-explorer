@@ -66,7 +66,8 @@ public str htmlFilled(str expression, str userGram, map[int, map[str, str]] gram
 	h2("", "P A R S E  T R E E - E X P L O R E R") + br() +
 	form(" action=\"/submit\" method=\"GET\"", 
 	label("","Text:") + br() + textarea(" id=\"text\"rows=\"2\" cols=\"30\" name=\"text\"", expression) + br() + 
-	label("","Syntax/Grammar:") + br() + textarea(" id=\"grammar\"rows=\"10\" cols=\"30\" name=\"grammar\" placeholder=\"If no syntax/grammar is defined, the expression will be defined with a concrete syntax with no layout\"", userGram) + br() +
+	label("","Syntax/Grammar:") + br() + textarea(" id=\"grammar\"rows=\"14\" cols=\"30\" name=\"grammar\" 
+	placeholder=\"Please define syntax/grammar with \'Expr\'.\n\nIf no syntax/grammar is defined, the expression will be defined with a concrete syntax with no layout.\"", userGram) + br() +
 	input(" type=\"submit\" name=\"name\"","")) +
 	p("", "\<b\>Examples for texts to try:\</b\> 1+2*3, 1+2*3+4*5+6, 1*2+3+4") +
 	h4("", "\<b\> Current parse tree:\</b\>") +

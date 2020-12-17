@@ -64,7 +64,7 @@ public str htmlFilled(str expression, str userGram, map[int, map[str, str]] gram
 	firsline() + 
 	html(
 	header(
-	title("Parse Tree Explorer") + style(cssFilled())) + //link(" rel=\"stylesheet\" href=\"demoRunApp.css\"")) +
+	title("Parse Tree Explorer") + style(cssFilled())) + 
 	body(
 	h2("", "P A R S E  T R E E - E X P L O R E R") + br() +
 	form(" action=\"/submit\" method=\"GET\"", 
@@ -77,7 +77,6 @@ public str htmlFilled(str expression, str userGram, map[int, map[str, str]] gram
 	h4(" id=\"myBtn\"", expression) + 
 	div(" id=\"viz\"","") + br() + 
 	script(" src=\"https://d3js.org/d3.v3.min.js\"", "") + br() +
-	//script(" src=\"demoRunApp.js\"") + br()
 	script("", jsFilled(gram)) + br()
 	)
 	); // html ends

@@ -9,7 +9,6 @@ import IO;
 import Type;
 import Map;
 
-
 public map[int, map[str, str]] getGrammarMap(Tree t) {
 	dic = ();
 	subdic = ();

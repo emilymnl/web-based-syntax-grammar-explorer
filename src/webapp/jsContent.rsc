@@ -5,11 +5,10 @@ module webapp::jsContent
 import Map;
 import IO;
 
-import Type; 	// typeOf
+import Type;	// typeOf
 import Set;		// min
-import List; 	// size
-import String; 	// toInt and contains
-
+import List;	// size
+import String;	// toInt and contains
 
 public str js(str content) = "<content>";
 
@@ -24,7 +23,6 @@ public str child(str name) = "{\n name: \'<name>\' \n}";
 public str nameChildren(str name, str children) = "name: \'<name>\',\nchildren: [ <children> ]";
 
 public str children(str name, str children) = "{\n name: \'<name>\',\nchildren: [ <children> ]\n}\n"; 
-
 
 // functions
 str gr(map[int, map[str, str]] gram) {
@@ -42,7 +40,6 @@ str gr(map[int, map[str, str]] gram) {
 	
 	int sizeMap = size(gram);
 	
-	// 0 .. 10 // 9 .. (-1)
 	for (int n <- [0 .. sizeMap]) {
 		// if only one number (contains NUM and EXPR)	
 		if (sizeMap == 2) {	
@@ -89,7 +86,7 @@ str gr(map[int, map[str, str]] gram) {
 						str expr = min(gram[n+3]<0>);
 						// expression is not the last in map
 						if (n+3 != sizeMap-1) {
-							mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
+							mainRight = children("<expr>", (left + "," + oper + "," + right));
 							left = mainRight;
 						// if expression is the last in map
 						} else {
@@ -106,9 +103,10 @@ str gr(map[int, map[str, str]] gram) {
 		// NOT OPERATOR (number and expression) 
 				} else {
 					// NOT number NOR last expression - find the expressions only
-					if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) { // et uttrykk
+					if ((contains((min(gram[n]<1>)), "+") || contains((min(gram[n]<1>)), "*") || contains((min(gram[n]<1>)), "/")) && n != sizeMap-1 ) {
 						// add sub tree and sub tree
 						println(min(gram[n]<1>)+" ---- got the expression!");
+						// counting how many expressions has surpassed this place
 						counter += 1;
 	
 						if (counter == 2) {
@@ -119,9 +117,8 @@ str gr(map[int, map[str, str]] gram) {
 							oper = top(operList);
 							right = left;
 							left = top(li);
-							mainRight = children("<expr>", (left + "," + oper + "," + right));	 // { name: 'PlusExpr',  children: [ <children> ]\n}\n
+							mainRight = children("<expr>", (left + "," + oper + "," + right));
 							left = mainRight;
-							
 							li = [] + left;
 							
 						}
@@ -138,18 +135,17 @@ str gr(map[int, map[str, str]] gram) {
 							result = nameChildren("Program",  children(expr, (mainLeft + "," + oper + "," + mainRight)));
 							println("list is empty");
 						}  else {
-								if (size(li) == 1) {	
-									mainLeft = top(li);
-									oper = top(operList);
-									println("only one in list");
-									
-								} else {
-									// take the last one in list
-									mainLeft = last(li);
-									oper = top(operList);
-									//println(size(li));
-									println("more in list");
-								}
+							if (size(li) == 1) {
+								mainLeft = top(li);
+								oper = top(operList);
+								println("only one in list");
+							} else {
+								// take the last one in list
+								mainLeft = last(li);
+								oper = top(operList);
+								//println(size(li));
+								println("more in list");
+							}
 							result = nameChildren("Program", children(expr, (mainLeft + "," + oper + "," + mainRight)));
 							println("took from list");
 						}
@@ -184,7 +180,7 @@ public str createChildren(int n, map[int, map[str, str]] gram) {
 
 }
 
-// not the best code but time is limited
+// not the best implementation but time is limited
 str first(str grammatikk) = 
 "
 parseTree({

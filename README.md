@@ -1,6 +1,9 @@
-# web-based syntax/grammar explorer
+# Parse Tree Explorer
 
 Eclipse IDE 2020-03 R Package
+
+## What is it?
+Web application that lets users explore syntax/grammars and see the visualized parse tree.
 
 ## How to run
 - Run the module `runApp.rsc` placed in `webapp` as a Rascal application

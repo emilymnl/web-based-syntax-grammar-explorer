@@ -1,4 +1,4 @@
-module webapp::jsContent
+module webapp::jsContentTest
 
 // NOTE: This is where it is decided how the tree should look like
 

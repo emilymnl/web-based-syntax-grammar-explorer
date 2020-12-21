@@ -1,5 +1,6 @@
-module grammars::getGrammar
+module grammars::getGrammarTest
 
+import demo::lang::Exp::Concrete::NoLayout::Syntax; //
 import ParseTree;
 import vis::Figure;
 import vis::ParseTree;
@@ -10,6 +11,21 @@ import Type;
 import Map;
 import String;
 
+/*
+lexical Whitespace = [\ \t\n];
+layout MyLayout = Whitespace*;
+lexical NUM = [0-9]+;
+lexical Id = [a-z]+;
+
+syntax Expr
+    = NUM 
+    | Id Expr
+    > left Expr "+" Expr
+    > left Expr "*" Expr
+    | "("  Expr  ")"
+    ;
+ */   
+//syntax Expr = "." | "(" Expr ")";
 lexical Whitespace = [\ \t\n];
 layout MyLayout = Whitespace*;
 lexical NUM = [0-9]+;
@@ -79,11 +95,25 @@ public map[int, map[str, list[str]]] getGrammarMap(Tree t) {
             	
             }   
         }
+        /*
+        case a : appl(prod(s,_,_),_): {
+            if (("<a>") != ("")) {
+            	println("<printSymbol(s, false)>: ‘<a>’");
+            	subdic = ("<printSymbol(s, false)>" : "<a>");
+            	dic = dic + (i : subdic);
+            	i = i + 1;
+            	//return appl;
+            }   
+        }		*/
     }
     return dic;
 }
 
 void main() {
+	//println(getGrammarMap(parse(#Expr,"A+A+3")));
+	getGrammarMap(parse(#Expr,"1+(2)"));
+	//getGrammarMap(parse(#Exp,"(2)+1"));
+	render(visParsetree(parse(#Expr,"1+(2)")));
 }
 
 

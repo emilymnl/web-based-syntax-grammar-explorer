@@ -59,7 +59,7 @@ public str link(str attributes) = tagsOneOperator("link", attributes);
 public str style(str content) = tags("style", "", content);
 
 // the index page with all the needed tags and attributes
-public str htmlFilled(str expression, str userGram, map[int, map[str, str]] gram) {
+public str htmlFilled(str expression, str userGram, map[int, map[str, list[str]]] gram) {
 	str page = 
 	firsline() + 
 	html(

@@ -30,12 +30,12 @@ void startServer() {
 	// initial empty grammar
 	str grammar = ""; 
 	
-	map[int, map[str, str]] mapOfGrammar = getGrammarMap(parse(#Exp, text));; 
+	map[int, map[str, list[str]]] mapOfGrammar = getGrammarMap(parse(#Exp, text));
 	
 	// get the last expression of the tree
-	set[str] ex = mapOfGrammar[(size(mapOfGrammar)-1)]<1>;
-	// min() removes { and } and only returns the string	
-	str expression = min(ex);					
+	set[list[str]] ex = mapOfGrammar[(size(mapOfGrammar)-1)]<1>;
+	// min() removes { and } and only returns the string
+	str expression = min(ex)[1];			
 	
 	// this serves the initial form
 	Response myServer(get("/")) 
@@ -49,7 +49,7 @@ void startServer() {
 		str nTex = replaceAll(text, "\n", "");
 		str tTex = replaceAll(nTex, "\t", "");
 		str rTex = replaceAll(tTex, "\r", "");
-		println("teksten: " +rTex);
+		println("the text: " +rTex);
 		
 		grammar = "<p.parameters["grammar"]>";
 		if (grammar != "") {
@@ -72,9 +72,7 @@ void startServer() {
 	  			println("Parse error at line <l.begin.line>, column <l.begin.column>");
 			}
 		}
-		
 	   	return response(htmlFilled(text, grammar, mapOfGrammar));
-	   	
 	}
 	
 	// in case of failing to handle a request, we dump the request back for debugging purposes:
@@ -82,7 +80,6 @@ void startServer() {
 	
 	//start server
 	serve(|http://localhost:10001|, myServer);
-	//shutdownServer();
 }
 
 void shutdownServer() {

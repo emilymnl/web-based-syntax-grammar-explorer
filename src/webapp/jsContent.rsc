@@ -207,20 +207,6 @@ str gr(map[int, map[str, list[str]]] gram) {
 	return result;
 }
 
-// no need for this..yet
-public str childrenAndChildren(str name, str oper, list[str] leftList)  {
-	str left = "";
-	
-	for (f <- leftList) {
-		if (f == leftList[0]) {
-			left = f;
-		} else {
-			left = children(name, (left + "," + oper + "," + f));
-		}
-	}
-	return left;
-}
-
 public str createChildren(int n, map[int, map[str, list[str]]]  gram) {	
 	str name = min(gram[n]<1>)[0];	
 	str val = min(gram[n]<1>)[1];
@@ -229,14 +215,14 @@ public str createChildren(int n, map[int, map[str, list[str]]]  gram) {
 }
 
 // not the best implementation but time is limited
-str first(str grammatikk) = 
+str first(str treeGrammars) = 
 "
 parseTree({
   divID: \'viz\',
   width: 600,
   height: 300,
   padding: 50,
-  data: { <grammatikk> }
+  data: { <treeGrammars> }
 })
 ";
 

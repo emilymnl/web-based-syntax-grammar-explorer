@@ -3,7 +3,7 @@
 Eclipse IDE 2020-03 R Package
 
 ## How to run
-- Run the module `RunApp.rsc` placed in `webapp` as a Rascal application
+- Run the module `runApp.rsc` placed in `webapp` as a Rascal application
 - Open http://localhost:10001/ on a browser
 
 ## Must manually shut down the server when done

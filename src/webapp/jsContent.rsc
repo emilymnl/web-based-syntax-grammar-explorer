@@ -150,7 +150,7 @@ str gr(map[int, map[str, list[str]]] gram) {
 		// Parantheses
 					} else { 
 						if ((min(gram[n]<0>) == "par")) {
-							println("got the the parantesis: ");
+							println("got the the parenteses: ");
 							println(min(gram[n]<1>));
 							
 							str expr = min(gram[n]<1>)[1];

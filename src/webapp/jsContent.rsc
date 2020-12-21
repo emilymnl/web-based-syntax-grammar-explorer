@@ -135,8 +135,7 @@ str gr(map[int, map[str, list[str]]] gram) {
 	
 						if (counter == 3) {
 							counter = 0;
-							println(min(gram[n]<1>)[1] + " ---- the non-terminal we want!");
-							println("set together sub-trees" + min(gram[n]<1>)[1]);
+							println("set together sub-trees: " + min(gram[n]<1>)[1]);
 							str expr = min(gram[n]<1>)[0];	
 							oper = top(operList);
 							right = left;

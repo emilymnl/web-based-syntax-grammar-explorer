@@ -9,7 +9,7 @@ public type[Tree] modifyGrammar(Symbol s, str newText) {
    Module m = parse(#start[Module], "module Dummy
                                     '
                                     '<newText>").top;
-                                    
+   // from module to a reified type that includes the grammar in abstract form                                
    Grammar gm = modules2grammar("Dummy", {m});
    
    if (type[Tree] gr := type(s, gm.rules)) {

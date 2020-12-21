@@ -49,7 +49,7 @@ void startServer() {
 		str nTex = replaceAll(text, "\n", "");
 		str tTex = replaceAll(nTex, "\t", "");
 		str rTex = replaceAll(tTex, "\r", "");
-		println("the text: " +rTex);
+		println("new text: " + rTex);
 		
 		grammar = "<p.parameters["grammar"]>";
 		if (grammar != "") {
@@ -72,6 +72,7 @@ void startServer() {
 	  			println("Parse error at line <l.begin.line>, column <l.begin.column>");
 			}
 		}
+		println("- - - - - - -");
 	   	return response(htmlFilled(text, grammar, mapOfGrammar));
 	}
 	

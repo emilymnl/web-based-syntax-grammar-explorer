@@ -32,17 +32,20 @@ lexical NUM = [0-9]+;
 lexical Id = [a-z]+;
 
 start syntax Expr = NUM | Id Expr > left Expr "+" Expr > left Expr "*" Expr;*/
+/*
 lexical NUM = [0-9]+;
 syntax Expr = 
     NUM 
     | "A" 
     > left Expr "b" Expr
-    > left Expr "a" Expr;
+    > left Expr "a" Expr;*/
+    
+lexical Whitespace = [\ \t\n];
+layout MyLayout = Whitespace*;
+lexical NUM = [0-9]+;
+syntax Expr = NUM | "E" > left "(" Expr ")" > left Expr "+" Expr;
 
 void main() {
-	
-	// in case of failing to handle a request, we dump the request back for debugging purposes:
-	//default Response myServer(Request q) = response("<q>");
 	
 	//start
 	//serve(|http://localhost:10001|, myServer);

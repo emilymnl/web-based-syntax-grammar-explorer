@@ -9,7 +9,7 @@ Web application that lets users explore syntax/grammars and see the visualized p
 - Run the module `runApp.rsc` placed in `webapp` as a Rascal application
 - Open http://localhost:10001/ on a browser
 
-It should look something like this:
+It should look something like this:  
 <img src="ss.png" width="700"/>
 
 ## Must manually shut down the server when done
